@@ -12,7 +12,7 @@ class TaskController {
   }
 
   void deleteTasks(TaskModel task) {
-    tasks.remove(task);
+    tasks.removeWhere((e) => e.id == task.id);
   }
 
   void toggleDone(TaskModel task) {
