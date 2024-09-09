@@ -12,12 +12,12 @@ class TaskItem extends StatefulWidget {
   const TaskItem(
       {super.key,
       required this.taskModel,
-      // required this.onDelete,
-      // required this.onDone,
+      required this.onDelete,
+      required this.onDone,
       required this.onUpdate});
   final TaskModel taskModel;
-  // final VoidCallback onDelete;
-  // final VoidCallback onDone;
+  final VoidCallback onDelete;
+  final VoidCallback onDone;
   final Function(TaskModel) onUpdate;
 
   @override
@@ -37,7 +37,15 @@ class _TaskItemState extends State<TaskItem> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(widget.taskModel.title),
+              Text(
+                widget.taskModel.title,
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    decoration: widget.taskModel.isDone
+                        ? TextDecoration.lineThrough
+                        : null),
+              ),
               Text(
                 widget.taskModel.isDone ? 'Completed' : 'Not Completed',
                 style: TextStyle(
@@ -48,9 +56,17 @@ class _TaskItemState extends State<TaskItem> {
           children: [
             Column(
               children: [
-                const Row(
+                Row(
                   children: [
-                    Text('data'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.taskModel.descreption,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -58,9 +74,9 @@ class _TaskItemState extends State<TaskItem> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        TaskController().deleteTasks(widget.taskModel);
+                        widget.onDelete();
                         setState(() {});
-                        log('delete');
+                        // log('delete');
                       },
                       icon: const Icon(
                         Icons.delete,
@@ -70,6 +86,8 @@ class _TaskItemState extends State<TaskItem> {
                     IconButton(
                       onPressed: () {
                         EditDialoge();
+                        widget.onUpdate(widget.taskModel);
+                        setState(() {});
                       },
                       icon: const Icon(
                         Icons.edit,

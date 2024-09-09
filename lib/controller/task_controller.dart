@@ -6,16 +6,16 @@ class TaskController {
     tasks.add(task);
   }
 
-  void updateTasks(TaskModel task) {
+  updateTasks(TaskModel task) {
     int index = tasks.indexWhere((e) => e.id == task.id);
     tasks[index] = task;
   }
 
-  void deleteTasks(TaskModel task) {
+  deleteTasks(TaskModel task) {
     tasks.removeWhere((e) => e.id == task.id);
   }
 
-  void toggleDone(TaskModel task) {
+  toggleDone(TaskModel task) {
     task.isDone = !task.isDone;
   }
 }
